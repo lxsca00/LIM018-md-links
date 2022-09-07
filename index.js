@@ -3,23 +3,21 @@ const main = require('./main.js')
 
 const route = process.argv[2]
 
-// 01-09 TO-DO
-// - Desenmarañar en funciones la bola de abajo
-// - Leer links dentro de un file
-// - Revisar asincronia
-// - Revisar RegEx
-// - Testear lo que ya hay
-
 // 1. LEER DOCUMENTO
 // 2. RETORNAR LINKS (Hacerle push a un array de todos los links de la ruta)
 // 3. CONTAR LOS LINKS TOTALES
 
-module.exports = mdLinks = (route, options = { validate: false }) => {
+module.exports = mdLinks = (route, options = { validate: false}) => {
   // ...
 
   main.pathExists(route)
 
-  console.log(main.getFiles(route))
+  const arrMd = main.getFiles(route)
+
+  arrMd.map( route => {
+    const objLink = main.getLinks(route)
+    main.validateLinks(objLink)
+  })
   
   /* fs.stat(route, (err, stats) => {
     let mdFiles = [];
