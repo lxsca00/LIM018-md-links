@@ -85,7 +85,6 @@ const pathStats = (arrLinks) => { // Recibe el array de links del path ingresado
   }
 }
 
-
 module.exports = {
     absoluteOrNot,
     pathExists,

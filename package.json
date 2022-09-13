@@ -1,6 +1,12 @@
 {
   "name": "md-links",
   "version": "0.1.0",
+  "main": "src/index.js",
+  "description": "",
+  "keywords": [
+    "markdown",
+    "link"
+  ],
   "engines": {
     "node": ">=16.x"
   },

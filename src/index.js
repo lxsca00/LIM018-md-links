@@ -43,4 +43,4 @@ module.exports = mdLinks = (route, options = {validate: false}) => {
   })
 }
 
-mdLinks(route, {stats: true}).then(console.log)
+mdLinks(route).then(console.log)
