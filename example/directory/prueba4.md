@@ -1,0 +1,1 @@
+la información que se quiere compartir.

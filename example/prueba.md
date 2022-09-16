@@ -7,5 +7,3 @@ encontrar varios archivos en ese formato en cualquier tipo de repositorio
 (empezando por el tradicional `README.md`).
 
 [Link roto](https://es.wikipedia.org/wiki/Markdwn)
-
-[Link roto](https://es.wikipedia.org/wiki/Markdwn)

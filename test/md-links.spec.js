@@ -1,16 +1,46 @@
-// const mdLinks = require('../src');
+const mdLinks = require('../src/index.js');
+
+const axios = require('axios')
+
 const main = require('../src/main.js')
 
+jest.mock('axios')
 
-/* describe('mdLinks', () => {
+const response = [
+  {
+    href: 'https://es.wikipedia.org/wiki/Markdown',
+    file: 'C:\\Users\\ljime\\LIM018\\LIM018-md-links\\example\\prueba.md',
+    text: 'Markdown'
+  },
+  {
+    href: 'https://es.wikipedia.org/wiki/Markdwn',
+    file: 'C:\\Users\\ljime\\LIM018\\LIM018-md-links\\example\\prueba.md',
+    text: 'Link roto'
+  },
+];
 
-  it('should...', () => {
-    console.log('FIX ME!');
+/* FUNCIÓN MDLINKS */
+
+describe('mdLinks', () => {
+  it('should be an error message if something is wrong', () => {
+    mdLinks('test', { validate: false })
+      .catch(err => expect(err.message).toBe('error: no .md files found'))
+    mdLinks('hola', { validate: false })
+      .catch(err => expect(err.message).toBe('error: path not found'))
+    mdLinks('C:\\Users\\ljime\\LIM018\\LIM018-md-links\\example\\directory\\prueba4.md', { validate: false })
+      .catch(err => expect(err.message).toBe('error: no links found'))
   });
+  it('should return an array with href, file and text if !validate', () => {
+    mdLinks('C:\\Users\\ljime\\LIM018\\LIM018-md-links\\example\\prueba.md', { validate: false })
+      .then(res => expect(res).toStrictEqual(response))
+  })
+  it('should return an array with total and unique links', () => {
+    mdLinks('C:\\Users\\ljime\\LIM018\\LIM018-md-links\\example\\prueba.md', { stats: true })
+      .then(res => expect(res).toStrictEqual({ total: 2, unique: 2 }))
+  })
+});
 
-}); */
-
-// TEST UNITARIOS
+/* TEST UNITARIOS */
 
 describe('absoluteOrNot()', () => {
   it('should return an absolute path from relative', () => {
@@ -48,7 +78,7 @@ describe('isMd()', () => {
 describe('readFiles()', () => {
   it('should return a string', () => {
     const someText = main.readFiles('C:\\Users\\ljime\\LIM018\\LIM018-md-links\\example\\prueba.md')
-    expect( typeof someText).toBe('string')
+    expect(typeof someText).toBe('string')
   })
 })
 
@@ -68,50 +98,61 @@ describe('getFiles()', () => {
     const withFile = main.getFiles('README.md')
     expect(withFile.length).toBe(1)
     const withDirectory = main.getFiles('example')
-    expect(withDirectory.length).toBe(3)
+    expect(withDirectory.length).toBe(4)
     const without = main.getFiles('test')
     expect(without.length).toBe(0)
   })
 })
 
-describe('getLinks()', () => { // mock con el resultado de los links para mayor cobertura
+const someText = main.readFiles('C:\\Users\\ljime\\LIM018\\LIM018-md-links\\example\\prueba.md');
+const arrObj = main.getLinks(someText, 'C:\\Users\\ljime\\LIM018\\LIM018-md-links\\example\\prueba.md');
+
+describe('getLinks()', () => {
   it('should return an array of objets', () => {
-    const arrObj = main.getLinks('C:\\Users\\ljime\\LIM018\\LIM018-md-links\\example\\prueba.md')
-    expect(typeof arrObj).toBe('object')
-    expect(typeof arrObj[1]).toBe('object')
+    expect(typeof arrObj).toBe('object');
+    expect(typeof arrObj[0]).toBe('object');
   })
   it('should return an array of objects with href, text and file keys', () => {
-    const arrObj = main.getLinks('C:\\Users\\ljime\\LIM018\\LIM018-md-links\\example\\prueba.md')
-    const response = [
-      {
-        href: 'https://es.wikipedia.org/wiki/Markdown',
-        file: 'C:\\Users\\ljime\\LIM018\\LIM018-md-links\\example\\prueba.md',
-        text: 'Markdown'
-      },
-      {
-        href: 'https://es.wikipedia.org/wiki/Markdwn',
-        file: 'C:\\Users\\ljime\\LIM018\\LIM018-md-links\\example\\prueba.md',
-        text: 'Link roto'
-      }
-    ];
     expect(arrObj).toStrictEqual(response)
   })
 })
 
-describe('validateLinks()', () => { // mock con el resultado de los links para mayor cobertura
-  it('should return an object with status and status.message', (done) => {
-    const arrObj = main.getLinks('C:\\Users\\ljime\\LIM018\\LIM018-md-links\\example\\prueba.md')
-    const response = [
-        {
-          href: 'https://es.wikipedia.org/wiki/Markdown',
-          file: 'C:\\Users\\ljime\\LIM018\\LIM018-md-links\\example\\prueba.md',
-          text: 'Markdown',
-          status: 200,
-          message: 'OK'
-        }]
-    return main.validateLinks(arrObj).then(res => {
-      expect(res).resolve.toEqual(response)
-      done();
-    })
+describe('validateLinks()', () => {
+  it('should return an array with objects once resolved', () => {
+    const res = [{
+      href: 'https://es.wikipedia.org/wiki/Markdown',
+      file: 'C:\\Users\\ljime\\LIM018\\LIM018-md-links\\example\\prueba.md',
+      text: 'Markdown',
+      status: 200,
+      message: 'OK'
+    },
+    {
+      href: 'https://es.wikipedia.org/wiki/Markdwn',
+      file: 'C:\\Users\\ljime\\LIM018\\LIM018-md-links\\example\\prueba.md',
+      text: 'Link roto',
+      status: 404,
+      message: 'FAIL'
+    },
+    ]
+    axios.get.mockResolvedValueOnce({ status: 200, message: 'OK' })
+    axios.get.mockRejectedValue(
+      {
+        response: {
+          status: 404
+        },
+        message: 'FAIL'
+      }
+    )
+    const allLinkRequestsPromises = main.validateLinks(arrObj);
+    Promise.all(allLinkRequestsPromises)
+      .then(something =>
+        expect(something).toStrictEqual(res))
+  })
+})
+
+describe('pathStats()', () => {
+  it('should return an object with info', () => {
+    const pathData = main.pathStats(arrObj);
+    expect(pathData).toStrictEqual({ total: 2, unique: 2 })
   })
 })
