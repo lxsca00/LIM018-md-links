@@ -27,8 +27,6 @@ describe('mdLinks', () => {
       .catch(err => expect(err.message).toBe('error: no .md files found'))
     mdLinks('hola', { validate: false })
       .catch(err => expect(err.message).toBe('error: path not found'))
-    mdLinks('C:\\Users\\ljime\\LIM018\\LIM018-md-links\\example\\directory\\prueba4.md', { validate: false })
-      .catch(err => expect(err.message).toBe('error: no links found'))
   });
   it('should return an array with href, file and text if !validate', () => {
     mdLinks('C:\\Users\\ljime\\LIM018\\LIM018-md-links\\example\\prueba.md', { validate: false })
@@ -98,7 +96,7 @@ describe('getFiles()', () => {
     const withFile = main.getFiles('README.md')
     expect(withFile.length).toBe(1)
     const withDirectory = main.getFiles('example')
-    expect(withDirectory.length).toBe(4)
+    expect(withDirectory.length).toBe(3)
     const without = main.getFiles('test')
     expect(without.length).toBe(0)
   })

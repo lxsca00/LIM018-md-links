@@ -122,16 +122,20 @@ switch ((route !== '--validate' || '--stats' || '--help')) {
         if (options.includes('--validate')) {
             mdLinks(route, { validate: true })
                 .then(res => anotherWhite(validateTable(res)))
-                .catch(err => console.log(err.message))
+                .catch(err => errorTable(err))
         } if (options.includes('--stats')) {
-            mdLinks(route, { stats: true }).then(res =>
-                console.log(anotherWhite(statsTable(res))));
+            mdLinks(route, { stats: true })
+                .then(res =>
+                    console.log(anotherWhite(statsTable(res))))
+                .catch(err => errorTable(err))
         }
         break;
     case (options.length === 5):
         if (options.includes('--validate') && options.includes('--stats')) {
-            mdLinks(route, { validate: true }).then(res =>
-                anotherWhite(combinateStatsTable(res)));
+            mdLinks(route, { validate: true })
+                .then(res =>
+                    anotherWhite(combinateStatsTable(res)))
+                .catch(err => errorTable(err))
         }
         break;
     default:

@@ -1,6 +1,6 @@
 {
   "name": "access-md-links",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "main": "./src/index.js",
   "description": "librería para encontrar, validar y obtener información de urls dentro de un archivo markdown.",
   "author": "Luisa Chang <ljimena10@gmail.com> (https://github.com/lxsca00)",

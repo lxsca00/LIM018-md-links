@@ -51,7 +51,7 @@ const getLinks = (fileContent, onePath) => {
       return {
         href: link.slice(firstofLink + 1, -1),
         file: onePath,
-        text: link.slice(1, lastOfText),
+        text: link.slice(1, lastOfText).substring(0, 50),
       }
     })
   }

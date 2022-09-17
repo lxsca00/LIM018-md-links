@@ -13,12 +13,12 @@ module.exports = mdLinks = (route, options) => {
     }
 
     const objLinks = arrMd.map(route => {
-      const fileCont = main.readFiles(route)
-      return main.getLinks(fileCont, route)
+      const fileCont = main.readFiles(route);
+      return main.getLinks(fileCont, route);
     })
 
     const arrLinks = objLinks.flat()
-
+    
     if (arrLinks.length === 0) {
       reject(new Error('error: no links found'))
     }
@@ -34,3 +34,4 @@ module.exports = mdLinks = (route, options) => {
     }
   })
 }
+
