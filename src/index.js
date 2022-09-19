@@ -17,8 +17,8 @@ module.exports = mdLinks = (route, options) => {
       return main.getLinks(fileCont, route);
     })
 
-    const arrLinks = objLinks.flat()
-    
+    const arrLinks = (objLinks.flat()).filter(obj => obj !== null)
+
     if (arrLinks.length === 0) {
       reject(new Error('error: no links found'))
     }
@@ -34,4 +34,3 @@ module.exports = mdLinks = (route, options) => {
     }
   })
 }
-

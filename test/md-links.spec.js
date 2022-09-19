@@ -96,7 +96,7 @@ describe('getFiles()', () => {
     const withFile = main.getFiles('README.md')
     expect(withFile.length).toBe(1)
     const withDirectory = main.getFiles('example')
-    expect(withDirectory.length).toBe(3)
+    expect(withDirectory.length).toBe(4)
     const without = main.getFiles('test')
     expect(without.length).toBe(0)
   })

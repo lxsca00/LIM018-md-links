@@ -40,7 +40,7 @@ const getFiles = (pathInput) => {
   return mdFiles
 }
 
-// Recibe el contenido del path y el path
+/* OBTENER EL ARRAY DE OBJETOS CON LA INFORMACIÓN BÁSICA DE LOS LINKS*/
 const getLinks = (fileContent, onePath) => {
   const http = /(\[(.*?)\])?\(http(.*?)\)/gm;
   const linksInMd = fileContent.match(http);
@@ -54,10 +54,12 @@ const getLinks = (fileContent, onePath) => {
         text: link.slice(1, lastOfText).substring(0, 50),
       }
     })
+  } else {
+    return null
   }
-} // Retorna un array de objetos con la info de los links
+}
 
-
+/* RETORNA ARRAY DE PROMESAS */
 const validateLinks = (arrLinks) => {
   const arrPromises = arrLinks.map((objLink) => {
     const link = objLink.href;
@@ -77,7 +79,7 @@ const validateLinks = (arrLinks) => {
 }
 
 /* OBTIENE STATS RESPECTO A LOS LINKS DE LA RUTA*/
-const pathStats = (arrLinks) => { // Recibe el array de links del path ingresado
+const pathStats = (arrLinks) => {
   const totalLinks = arrLinks.length;
   const uniqueData = new Set(arrLinks.map(objLink => objLink.href)).size;
   return {
