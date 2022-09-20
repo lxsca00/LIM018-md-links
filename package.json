@@ -13,6 +13,13 @@
     "node": ">=16.x"
   },
   "type": "commonjs",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lxsca00/LIM018-md-links.git"
+  },
   "scripts": {
     "start": "node src/index.js",
     "test": "jest --coverage",
