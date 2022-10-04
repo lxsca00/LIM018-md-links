@@ -12,8 +12,6 @@ const polishedPine = chalk.hex('#63a088')
 
 const budGreen = chalk.hex('#7fb069')
 
-const darkMoss = chalk.hex('#3c5a14')
-
 const anotherWhite = chalk.hex('#fffffa')
 
 const helpMessage = `
@@ -79,10 +77,11 @@ const validateTable = (res) => {
 
    ═══════════════════════════════════════════════════════════════════════════════════`)
     res.forEach(obj => console.log(`
-    ${(obj.text)} -- ${obj.href} 
-    ${darkMoss.bold('¡' + obj.message + '!')}
-    ${polishedPine('Found in :')} ${obj.file}
-    ${polishedPine('Status :')} ${obj.status} 
+    ${polishedPine.bold('Text : ')} ${obj.text}
+    ${polishedPine.bold('Href : ')} ${obj.href} 
+    ${polishedPine.bold('File :')} ${obj.file}
+    ${polishedPine.bold('Status :')} ${obj.status} 
+    ${polishedPine.bold('Message : ')} ${obj.message} 
     `))
     console.log(`   ═══════════════════════════════════════════════════════════════════════════════════`);
 }
@@ -93,8 +92,9 @@ const noValidateTable = (res) => {
 
    ═══════════════════════════════════════════════════════════════════════════════════`)
     res.forEach(obj => console.log(`
-    ${(obj.text)} -- ${obj.href} 
-    ${polishedPine('Found in :')} ${obj.file}
+    ${polishedPine.bold('Text : ')} ${obj.text}
+    ${polishedPine.bold('Href : ')} ${obj.href} 
+    ${polishedPine.bold('Found in :')} ${obj.file}
     `))
     console.log(`   ═══════════════════════════════════════════════════════════════════════════════════`)
 }

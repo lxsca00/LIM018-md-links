@@ -46,10 +46,9 @@ const getLinks = (fileContent, onePath) => {
   const linksInMd = fileContent.match(http);
   if (linksInMd !== null) {
     return linksInMd.map(link => {
-      const firstofLink = link.indexOf('(')
       const lastOfText = link.indexOf(']')
       return {
-        href: link.slice(firstofLink + 1, -1),
+        href: link.slice(lastOfText + 2, -1),
         file: onePath,
         text: link.slice(1, lastOfText).substring(0, 50),
       }
@@ -70,7 +69,7 @@ const validateLinks = (arrLinks) => {
         return objLink;
       })
       .catch((err) => {
-        objLink.status = err.response.status,
+        objLink.status = (err.response)?(err.response.status):(err.errno)
           objLink.message = 'FAIL';
         return objLink
       })
